@@ -32,7 +32,7 @@ class LinearRegression:
             # update weight
             self.weights -= self.lr * dw
 
-            # print(f'updated weight is {self.weights}')
+            # update bias
             self.bias -= self.lr * db
 
             # print(f'updated bias is {self.bias}')

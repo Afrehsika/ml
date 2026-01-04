@@ -1,0 +1,41 @@
+import numpy as np
+
+class LogisticResgress:
+    def __init__(self,lr=0.001, n_iter=1000):
+        self.lr =lr
+        self.n_iter = n_iter
+        self.weight = None
+        self.bias = None
+
+    def fit(self,X,y):
+        # init parameters
+        n_samples,n_features = X.shape
+        self.weight = np.zeros(n_features)
+        self.bias = 0
+
+        for _ in range(self.n_iter):
+            linear_model = np.dot(X,self.weight) +self.bias
+            y_predicted = self._sigmoid(linear_model)
+
+            #derivative in respect to the weight
+            dw = (1/n_samples) * np.dot((X.T), (y_predicted-y))
+
+            #derivative in respect to the bias
+            db = (1/n_samples) * np.sum(y_predicted - y)
+
+             # update weight
+            self.weights -= self.lr * dw
+
+            # print(f'updated weight is {self.weights}')
+            self.bias -= self.lr * db
+        
+
+    def predict(self,X):
+        linear_model = np.dot(X,self.weight) +self.bias
+        y_predicted = self._sigmoid(linear_model)
+        y_predicted_cls = [1 if i > 0.5 else 0 for i in y_predicted]
+        return y_predicted_cls
+    
+
+    def _sigmoid(self,x):
+        return 1/ (1 + np.exp(-x))
